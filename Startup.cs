@@ -25,10 +25,12 @@ namespace WebApplicationBasic
 
         public IConfigurationRoot Configuration { get; }
 
+        //IServiceCollection is een container voor alle dependencies  in onze applicatie.
         // This method gets called by the runtime. Use this method to add services to the container.
         public void ConfigureServices(IServiceCollection services)
         {
             // Add framework services.
+            //oftewel hier worden dependencies toegevoegd/geregistreerd bijv. services.AddMvc();
             services.AddMvc();
         }
 
@@ -38,8 +40,12 @@ namespace WebApplicationBasic
             loggerFactory.AddConsole(Configuration.GetSection("Logging"));
             loggerFactory.AddDebug();
 
+            //Console.WriteLine("is het dev?");
+            //Console.WriteLine(env.EnvironmentName);
+
             if (env.IsDevelopment())
             {
+                //we toevoegen hier een paar middleware
                 app.UseDeveloperExceptionPage();
                 app.UseWebpackDevMiddleware(new WebpackDevMiddlewareOptions {
                     HotModuleReplacement = true

@@ -40,8 +40,8 @@ namespace WebApplicationBasic
             loggerFactory.AddConsole(Configuration.GetSection("Logging"));
             loggerFactory.AddDebug();
 
-            //Console.WriteLine("is het dev?");
-            //Console.WriteLine(env.EnvironmentName);
+            Console.WriteLine("is het dev?");
+            Console.WriteLine(env.EnvironmentName);
 
             if (env.IsDevelopment())
             {

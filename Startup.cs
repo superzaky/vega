@@ -32,7 +32,7 @@ namespace WebApplicationBasic
         public void ConfigureServices(IServiceCollection services)
         {
             //options => options.UseSqlServer("...") is een lambda expressie in C#.
-            services.AddDbContext<VegaDbContext>(options => options.UseSqlServer("..."));
+            services.AddDbContext<VegaDbContext>(options => options.UseSqlServer(Configuration.GetConnectionString("Default")));
             // Add framework services.
             //oftewel hier worden dependencies toegevoegd/geregistreerd bijv. services.AddMvc();
             services.AddMvc();

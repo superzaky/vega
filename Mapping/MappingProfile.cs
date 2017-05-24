@@ -15,6 +15,7 @@ namespace Vega.Mapping
             //Unidirectional maps and currently we can only map Make to MakeResource and not the other way around. For that we need to create a seperate map.
             CreateMap<Make, MakeResource>();
             CreateMap<Model, ModelResource>();
+            CreateMap<Feature, FeatureResource>();
         }
     }
 }

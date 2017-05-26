@@ -2,8 +2,7 @@ import { FormsModule } from '@angular/forms';
 import { NgModule } from '@angular/core';
 import { RouterModule } from '@angular/router';
 
-import { FeatureService } from "./services/feature.service";
-import { MakeService } from './services/make.service';
+import { VehicleService } from './services/vehicle.service';
 import { AppComponent } from './components/app/app.component'
 import { NavMenuComponent } from './components/navmenu/navmenu.component';
 import { HomeComponent } from './components/home/home.component';
@@ -33,7 +32,6 @@ export const sharedConfig: NgModule = {
         ])
     ],
     providers: [
-        MakeService,
-        FeatureService
+        VehicleService
     ]
 };

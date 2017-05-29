@@ -26,6 +26,21 @@ namespace Vega.Controllers
         [HttpPost]
         public async Task <IActionResult> CreateVehicle([FromBody] VehicleResource vehicleResource)
         {
+            if (!ModelState.IsValid)
+                //it's not valid because it violates the Data Annotations
+                return BadRequest(ModelState);
+
+            /*For this application we see the below code as an overkill, because the client of this API is our vehicle form that we have built with Angular 2.
+             So technically we should not send an invalid modelId. Because what the user selects from a dropdown list comes from the server. So the only way an invalid ID is 
+             sent to the server is when a malicious user/hacker tries to manipulate this API. And in that case when they are in the production environment they are just 
+             gonna get an internal server error without the exception details. */
+            //var model = await context.Models.FindAsync(vehicleResource.ModelId);
+            //if(model == null)
+            //{
+            //    ModelState.AddModelError("ModelId", "Invalid modelId.");
+            //    return BadRequest(ModelState);
+            //}
+
             var vehicle = mapper.Map<VehicleResource, Vehicle>(vehicleResource);
             vehicle.LastUpdate = DateTime.Now;
 

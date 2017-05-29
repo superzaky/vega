@@ -7,6 +7,7 @@ using Vega.Controllers.Resources;
 using AutoMapper;
 using Vega.Models;
 using Vega.Persistence;
+using Microsoft.EntityFrameworkCore;
 
 // For more information on enabling Web API for empty projects, visit https://go.microsoft.com/fwlink/?LinkID=397860
 
@@ -24,7 +25,7 @@ namespace Vega.Controllers
         }
 
         [HttpPost]
-        public async Task <IActionResult> CreateVehicle([FromBody] VehicleResource vehicleResource)
+        public async Task<IActionResult> CreateVehicle([FromBody] VehicleResource vehicleResource)
         {
             if (!ModelState.IsValid)
                 //it's not valid because it violates the Data Annotations
@@ -45,6 +46,24 @@ namespace Vega.Controllers
             vehicle.LastUpdate = DateTime.Now;
 
             context.Vehicles.Add(vehicle);
+            await context.SaveChangesAsync();
+
+            var result = mapper.Map<Vehicle, VehicleResource>(vehicle);
+
+            return Ok(result);
+        }
+
+        [HttpPut("{id}")]
+        public async Task<IActionResult> UpdateVehicle(int id, [FromBody] VehicleResource vehicleResource)
+        {
+            if (!ModelState.IsValid)
+                //it's not valid because it violates the Data Annotations
+                return BadRequest(ModelState);
+
+            var vehicle = await context.Vehicles.Include( v => v.Features).SingleOrDefaultAsync(v => v.Id == id);
+            mapper.Map<VehicleResource, Vehicle>(vehicleResource, vehicle);
+            vehicle.LastUpdate = DateTime.Now;
+
             await context.SaveChangesAsync();
 
             var result = mapper.Map<Vehicle, VehicleResource>(vehicle);

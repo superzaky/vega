@@ -15,8 +15,9 @@ namespace Vega.Mapping
             /*So far all the mappings we have are from Domain to API Resources */
             //Unidirectional maps and currently we can only map Make to MakeResource and not the other way around. For that we need to create a seperate map.
             CreateMap<Make, MakeResource>();
-            CreateMap<Model, ModelResource>();
-            CreateMap<Feature, FeatureResource>();
+            CreateMap<Make, KeyValuePairResource>();
+            CreateMap<Model, KeyValuePairResource>();
+            CreateMap<Feature, KeyValuePairResource>();
             CreateMap<Vehicle, SaveVehicleResource>()
                 .ForMember(vr => vr.Contact, opt => opt.MapFrom(v => new ContactResource { Name = v.ContactName, Email = v.ContactEmail, Phone = v.ContactPhone }))
                 .ForMember(vr => vr.Features, opt => opt.MapFrom(v => v.Features.Select(vf => vf.FeatureId)));
@@ -24,7 +25,7 @@ namespace Vega.Mapping
                 //This means when we eager loading the Model we should also include the Make
                 .ForMember(vr => vr.Make, opt => opt.MapFrom(v => v.Model.Make))
                 .ForMember(vr => vr.Contact, opt => opt.MapFrom(v => new ContactResource { Name = v.ContactName, Email = v.ContactEmail, Phone = v.ContactPhone }))
-                .ForMember(vr => vr.Features, opt => opt.MapFrom(v => v.Features.Select(vf => new FeatureResource { Id = vf.Feature.Id, Name = vf.Feature.Name })));
+                .ForMember(vr => vr.Features, opt => opt.MapFrom(v => v.Features.Select(vf => new KeyValuePairResource { Id = vf.Feature.Id, Name = vf.Feature.Name })));
 
             //Below we have API Resource to Domain
             CreateMap<SaveVehicleResource, Vehicle>()

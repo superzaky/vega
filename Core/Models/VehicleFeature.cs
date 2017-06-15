@@ -4,7 +4,7 @@ using System.ComponentModel.DataAnnotations.Schema;
 using System.Linq;
 using System.Threading.Tasks;
 
-namespace Vega.Models
+namespace Vega.Core.Models
 {
     /*We create this class because Entity framework core 1.1.2 doesn't support many-to-many relationships. So that's why we
      * are creating the VehicleFeature class to implement a many-to-many relationship */

@@ -6,7 +6,7 @@ using Microsoft.AspNetCore.Mvc;
 using Vega.Persistence;
 using AutoMapper;
 using Vega.Controllers.Resources;
-using Vega.Models;
+using Vega.Core.Models;
 using Microsoft.EntityFrameworkCore;
 
 // For more information on enabling MVC for empty projects, visit https://go.microsoft.com/fwlink/?LinkID=397860

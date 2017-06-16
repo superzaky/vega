@@ -10,7 +10,10 @@ export class VehicleFormComponent implements OnInit {
     makes: any[];
     models: any[];
     features: any[];
-    vehicle: any = {};
+    vehicle: any = {
+        features: []
+    };
+
     constructor(
         private vehicleService: VehicleService) { }
 
@@ -30,5 +33,15 @@ export class VehicleFormComponent implements OnInit {
         var selectedMake = this.makes.find(m => m.id == this.vehicle.makeId);
         this.models = selectedMake ? selectedMake.models : [];
         delete this.vehicle.modelId;
+    }
+
+    onFeatureToggle(featureId, $event) {
+        if ($event.target.checked)
+            this.vehicle.features.push(featureId);
+        else {
+            var index = this.vehicle.features.indexOf(featureId);
+            //with the splice() method we remove 1 feature object through index
+            this.vehicle.features.splice(index, 1);
+        }
     }
 }

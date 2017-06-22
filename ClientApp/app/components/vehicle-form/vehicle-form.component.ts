@@ -2,6 +2,8 @@
 import { VehicleService } from "../../services/vehicle.service";
 import { ToastyService } from "ng2-toasty";
 import { ActivatedRoute, Router } from "@angular/router";
+import { Observable } from "rxjs/Observable";
+import 'rxjs/add/Observable/forkJoin';
 
 @Component({
     selector: 'app-vehicle-form',
@@ -32,21 +34,25 @@ export class VehicleFormComponent implements OnInit {
     }
 
     ngOnInit() {
-        this.vehicleService.getVehicle(this.vehicle.id)
-            .subscribe(v => {
-                this.vehicle = v;
-            }, err => {
-                if (err.status == 404)
-                    this.router.navigate(['/home']);
-            });
+        var sources = [
+            this.vehicleService.getMakes(),
+            this.vehicleService.getFeatures(),
+        ];
 
-        this.vehicleService.getMakes().subscribe(makes => {
-            this.makes = makes;
-            //console.log("MAKES", this.makes);
-        });
+        //if it has a value and is "truthy", which means it's not zero.
+        if (this.vehicle.id)
+            //push new observable into our sources array
+            sources.push(this.vehicleService.getVehicle(this.vehicle.id))
 
-        this.vehicleService.getFeatures().subscribe(features => {
-            this.features = features;
+        Observable.forkJoin(sources).subscribe(data => {
+            this.makes = data[0];
+            this.features = data[1];
+
+            if (this.vehicle.id)
+                this.vehicle = data[2];
+        }, err => {
+            if (err.status == 404)
+                this.router.navigate(['/home']);
         });
     }
 

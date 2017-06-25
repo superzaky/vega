@@ -30,7 +30,6 @@ namespace Vega.Controllers
         [HttpPost]
         public async Task<IActionResult> CreateVehicle([FromBody] SaveVehicleResource vehicleResource)
         {
-            throw new Exception();
             if (!ModelState.IsValid)
                 //it's not valid because it violates the Data Annotations
                 return BadRequest(ModelState);

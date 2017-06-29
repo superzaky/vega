@@ -2,17 +2,21 @@
 import { By } from '@angular/platform-browser';
 import { DebugElement } from '@angular/core';
 import { VehicleListComponent } from "./vehicle-list";
+import { VehicleFormComponent } from "../vehicle-form/vehicle-form.component";
 import { RouterModule } from '@angular/router';
 import { FormsModule } from '@angular/forms';
 import { APP_BASE_HREF } from '@angular/common';
 import { KeyValuePair, Contact } from "../../models/vehicle";
 import { VehicleService } from "../../services/vehicle.service";
+import { async } from "@angular/core/testing";
+import { ToastyModule } from "ng2-toasty";
 
 
 describe('BannerComponent (inline template)', () => {
-
     let comp: VehicleListComponent;
+    let comp2: VehicleFormComponent;
     let fixture: ComponentFixture<VehicleListComponent>;
+    let fixture2: ComponentFixture<VehicleFormComponent>;
     let de: DebugElement;
     let el: HTMLElement;
 
@@ -69,8 +73,8 @@ describe('BannerComponent (inline template)', () => {
         };
 
         TestBed.configureTestingModule({
-            declarations: [VehicleListComponent], // declare the test component
-            imports: [RouterModule.forRoot([]), FormsModule],
+            declarations: [VehicleListComponent, VehicleFormComponent], // declare the test component
+            imports: [RouterModule.forRoot([]), FormsModule, ToastyModule.forRoot()],
             providers: [
                 { provide: APP_BASE_HREF, useValue: '/' },
                 { provide: VehicleService, useValue: vehicleServiceStub }
@@ -78,12 +82,18 @@ describe('BannerComponent (inline template)', () => {
         });
 
         fixture = TestBed.createComponent(VehicleListComponent);
+        fixture2 = TestBed.createComponent(VehicleFormComponent);
 
         comp = fixture.componentInstance; // VehicleListComponent test instance
+        comp2 = fixture2.componentInstance; // VehicleFormComponent test instance
 
         // VehicleService actually injected into the component
         vehicleService = fixture.debugElement.injector.get(VehicleService);
         componentVehicleService = vehicleService;
+
+        vehicleService = fixture2.debugElement.injector.get(VehicleService);
+        componentVehicleService = vehicleService;
+
         // VehicleService from the root injector
         vehicleService = TestBed.get(VehicleService);
 
@@ -95,4 +105,13 @@ describe('BannerComponent (inline template)', () => {
     it('should display original title', () => {
         expect(el.textContent).toEqual("Vehicles");
     });
+
+    it('should go to new vehicles page when clicked on the anchor', async(() => {
+        const anchor = fixture.nativeElement.querySelector('a');
+        anchor.click();
+        //fixture2.detectChanges();
+        de = fixture2.debugElement.query(By.css('h1'));
+        el = de.nativeElement;
+        expect(el.textContent).toEqual("New Vehicle");
+    }));
 });

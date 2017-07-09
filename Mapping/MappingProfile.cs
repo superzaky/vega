@@ -13,6 +13,7 @@ namespace Vega.Mapping
         public MappingProfile()
         {
             /*So far all the mappings we have are from Domain to API Resources */
+            CreateMap<Photo, PhotoResource>();
             //We use a different overload CreateMap() method a non-generic one for our generic classes QueryResult and QueryResultResource.
             CreateMap(typeof(QueryResult<>), typeof(QueryResultResource<>));
             //Unidirectional maps and currently we can only map Make to MakeResource and not the other way around. For that we need to create a seperate map.

@@ -8,6 +8,7 @@ using Microsoft.AspNetCore.Mvc;
 using Vega.Core.Models;
 using Vega.Core;
 using Vega.Controllers.Resources;
+using System.Linq;
 
 // For more information on enabling MVC for empty projects, visit https://go.microsoft.com/fwlink/?LinkID=397860
 
@@ -16,6 +17,8 @@ namespace Vega.Controllers
     [Route("/api/vehicles/{vehicleId}/photos")]
     public class PhotosController : Controller
     {
+        private readonly int MAX_BYTES = 1 * 1024 * 1024;
+        private readonly string[] ACCEPTED_FILE_TYPES = new[] { ".jpg", ".jpeg", ".png" };
         private readonly IHostingEnvironment host;
         private readonly IVehicleRepository repository;
         private readonly IUnitOfWork unitOfWork;
@@ -35,6 +38,12 @@ namespace Vega.Controllers
             var vehicle = await repository.GetVehicle(vehicleId, includeRelated: false);
             if (vehicle == null)
                 return NotFound();
+
+            if (file == null) return BadRequest("Null file");
+            if (file.Length == 0) return BadRequest("Empty file");
+            //Check if file is larger than 10 MB
+            if (file.Length > MAX_BYTES) return BadRequest("Max file size exceeded");
+            if (!ACCEPTED_FILE_TYPES.Any(s => s == Path.GetExtension(file.FileName))) return BadRequest("Invalid file type.");
 
             var uploadsFolderPath = Path.Combine(host.WebRootPath, "uploads");
             if (!Directory.Exists(uploadsFolderPath))

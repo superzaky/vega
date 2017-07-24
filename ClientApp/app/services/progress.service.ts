@@ -4,17 +4,30 @@ import { BrowserXhr } from "@angular/http";
 
 @Injectable()
 export class ProgressService {
-    uploadProgress: Subject<any> = new Subject();
-    downloadProgress: Subject<any> = new Subject();
+    /*a Subject is like a observable, but it also has a method for pushing a new value into the observable. */
+    private uploadProgress: Subject<any>;
+
+    /*We want the client of the service which is our ViewVehicleComponent to get access to the subject via
+    this method. And that means that the uploadProgress variable must be private.
+    */
+    startTracking() {
+        this.uploadProgress = new Subject();
+        return this.uploadProgress;
+    }
+
+    notify(progress) {
+        this.uploadProgress.next(progress);
+    }
+
+    endTracking() {
+        this.uploadProgress.complete();
+    }
 }
 
 // XMLHttpRequest
 // BrowserXhr (Xhr stands for Xml http request)
 @Injectable()
 export class BrowserXhrWithProgress extends BrowserXhr  {
-    /*a Subject is like a observable, but it also has a method for pushing a new value into the observable. */
-    uploadProgress: Subject<any> = new Subject();
-    downloadProgress: Subject<any> = new Subject();
 
     //In the constructor we inject our ProgressService
     constructor(private service: ProgressService) {
@@ -29,15 +42,14 @@ export class BrowserXhrWithProgress extends BrowserXhr  {
 
         /*Here is where the magic happens before we return the XMLHttpRequest object. We're gonna subscribe
         on onprogress event of this object. */
-        xhr.onprogress = (event) => {
-            //here we can track of the download progress
-            this.service.downloadProgress.next(this.createProgress(event));
-        };
-
         xhr.upload.onprogress = (event) => {
             //here we can track of the upload progress
-            this.service.uploadProgress.next(this.createProgress(event));
+            this.service.notify(this.createProgress(event));
         };
+
+        xhr.upload.onloadend = () => {
+            this.service.endTracking();
+        }
 
         return xhr;
     }

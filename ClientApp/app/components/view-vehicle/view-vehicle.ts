@@ -63,7 +63,7 @@ export class ViewVehicleComponent implements OnInit {
         var nativeElement: HTMLInputElement = this.fileInput.nativeElement;
 
         /*Before uploading the file to the server we want to subscribe to our ProgressService*/
-        this.progressService.uploadProgress
+        this.progressService.startTracking()
             .subscribe(progress => {
                 console.log(progress);
                 // Set the progress to this.progress first

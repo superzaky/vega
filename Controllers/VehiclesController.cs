@@ -8,6 +8,7 @@ using AutoMapper;
 using Vega.Core.Models;
 using Vega.Core;
 using Microsoft.EntityFrameworkCore;
+using Microsoft.AspNetCore.Authorization;
 
 // For more information on enabling Web API for empty projects, visit https://go.microsoft.com/fwlink/?LinkID=397860
 
@@ -27,7 +28,11 @@ namespace Vega.Controllers
             this.mapper = mapper;
         }
 
+        /*When a request comes in before ASP.NET routes to that request to this action are new middleware kicks in
+         it looks at the request header and if we have a Authorization header with a valid JWT then the request will pass
+         through and it will be routed to our CreateVehicle() action*/
         [HttpPost]
+        [Authorize]
         public async Task<IActionResult> CreateVehicle([FromBody] SaveVehicleResource vehicleResource)
         {
             if (!ModelState.IsValid)
@@ -63,6 +68,7 @@ namespace Vega.Controllers
         }
 
         [HttpPut("{id}")]
+        [Authorize]
         public async Task<IActionResult> UpdateVehicle(int id, [FromBody] SaveVehicleResource vehicleResource)
         {
             if (!ModelState.IsValid)
@@ -86,6 +92,7 @@ namespace Vega.Controllers
         }
 
         [HttpDelete("{id}")]
+        [Authorize]
         public async Task<IActionResult> DeleteVehicle(int id)
         {
             //"includeRelated:" is a named parameter/named argument to make the code more readable

@@ -71,6 +71,16 @@ namespace WebApplicationBasic
 
             app.UseStaticFiles();
 
+            var options = new JwtBearerOptions
+            {
+                //this determines who these tokens are for
+                Audience = "https://api.vega.com",
+                //the party that is generating authentication tokens
+                Authority = "https://vegaproject3.auth0.com/"
+            };
+            //we're installing a middleware to verify json web tokens passed with the request
+            app.UseJwtBearerAuthentication(options);
+
             app.UseMvc(routes =>
             {
                 routes.MapRoute(

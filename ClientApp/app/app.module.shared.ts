@@ -14,6 +14,7 @@ import { VehicleListComponent } from "./components/vehicle-list/vehicle-list";
 import { PaginationComponent } from "./components/shared/pagination.component";
 import { ViewVehicleComponent } from "./components/view-vehicle/view-vehicle";
 import { PhotoService } from "./services/photo.service";
+import { AuthService } from "./services/auth.service";
 
 export const sharedConfig: NgModule = {
     bootstrap: [ AppComponent ],
@@ -44,6 +45,7 @@ export const sharedConfig: NgModule = {
         ])
     ],
     providers: [
+        AuthService,
         VehicleService,
         PhotoService
     ]

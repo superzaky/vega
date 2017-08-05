@@ -12,11 +12,21 @@
         <div class='clearfix'></div>
         <div class='navbar-collapse collapse'>
             <ul class='nav navbar-nav'>
-                <li [routerLinkActive]="['link-active']"  [routerLinkActiveOptions]="{exact: true}">
+                <li [routerLinkActive]="['link-active']" >
+                    <a href="https://vegaproject3.auth0.com/login?client=HjR3rU2tPV4zJO2fr52sfsk9SR9m7Ze8" *ngIf="!auth.authenticated()">
+                        <span class='glyphicon glyphicon-user'></span> Login
+                    </a>
+                    <a (click)="auth.logout()" *ngIf="auth.authenticated()">
+                        <span class='glyphicon glyphicon-user'></span> Logout
+                    </a>
+                </li>
+
+                <li [routerLinkActive]="['link-active']" [routerLinkActiveOptions]="{exact: true}">
                     <a [routerLink]="['/vehicles']">
                         <span class='glyphicon glyphicon-home'></span> Vehicles
                     </a>
                 </li>
+
                 <li [routerLinkActive]="['link-active']">
                     <a [routerLink]="['/vehicles/new']">
                         <span class='glyphicon glyphicon-plus'></span> New Vehicle

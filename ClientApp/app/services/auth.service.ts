@@ -1,5 +1,5 @@
 ﻿import { Injectable } from '@angular/core';
-import { tokenNotExpired } from 'angular2-jwt';
+import { tokenNotExpired, JwtHelper } from 'angular2-jwt';
 
 /*We're not using curly braces because this is the proper way to import auth0-lock*/
 // Avoid name not found warnings
@@ -8,6 +8,7 @@ import Auth0Lock from 'auth0-lock';
 @Injectable()
 export class AuthService {
     profile: any;
+    private roles: string[] = [];
 
     // Configure Auth0
     lock = new Auth0Lock('HjR3rU2tPV4zJO2fr52sfsk9SR9m7Ze8', 'vegaproject3.auth0.com', {});
@@ -15,9 +16,20 @@ export class AuthService {
     constructor() {
         this.profile = JSON.parse(localStorage.getItem('profile'));
 
+        var token = localStorage.getItem('token');
+        if (token) {
+            var jwtHelper = new JwtHelper();
+            var decodedToken = jwtHelper.decodeToken(token);
+            this.roles = decodedToken['https://vega.com/roles'];
+        }
+
         // Add callback for lock `authenticated` event
         this.lock.on("authenticated", (authResult) => {
             localStorage.setItem('token', authResult.accessToken);
+
+            var jwtHelper = new JwtHelper();
+            var decodedToken = jwtHelper.decodeToken(authResult.accessToken);
+            this.roles = decodedToken['https://vega.com/roles'];
 
             this.lock.getUserInfo(authResult.accessToken, (error, profile) => {
                 if (error)
@@ -28,6 +40,10 @@ export class AuthService {
                 this.profile = profile;
             });
         });
+    }
+
+    public isInRole(roleName) {
+        return this.roles.indexOf(roleName) > -1;
     }
 
     public login() {
@@ -46,5 +62,6 @@ export class AuthService {
         localStorage.removeItem('token');
         localStorage.removeItem('profile');
         this.profile = null;
+        this.roles = [];
     }
 }

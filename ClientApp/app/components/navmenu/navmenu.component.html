@@ -42,6 +42,11 @@
                         <span class='glyphicon glyphicon-th-list'></span> Fetch data
                     </a>
                 </li>
+                <li [routerLinkActive]="['link-active']" *ngIf="auth.isInRole('Admin')">
+                    <a [routerLink]="['/admin']">
+                        <span class='glyphicon glyphicon-th-list'></span> Admin
+                    </a>
+                </li>
             </ul>
         </div>
     </div>

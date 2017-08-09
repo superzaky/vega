@@ -13,6 +13,8 @@ import { VehicleFormComponent } from './components/vehicle-form/vehicle-form.com
 import { VehicleListComponent } from "./components/vehicle-list/vehicle-list";
 import { PaginationComponent } from "./components/shared/pagination.component";
 import { ViewVehicleComponent } from "./components/view-vehicle/view-vehicle";
+import { AdminComponent } from "./components/admin/admin.component";
+
 import { PhotoService } from "./services/photo.service";
 import { AuthService } from "./services/auth.service";
 
@@ -27,7 +29,8 @@ export const sharedConfig: NgModule = {
         VehicleFormComponent,
         VehicleListComponent,
         ViewVehicleComponent,
-        PaginationComponent
+        PaginationComponent,
+        AdminComponent
     ],
     imports: [
         FormsModule,
@@ -38,6 +41,7 @@ export const sharedConfig: NgModule = {
             { path: 'vehicles/edit/:id', component: VehicleFormComponent },
             { path: 'vehicles/:id', component: ViewVehicleComponent },
             { path: 'vehicles', component: VehicleListComponent },
+            { path: 'admin', component: AdminComponent },
             { path: 'home', component: HomeComponent },
             { path: 'counter', component: CounterComponent },
             { path: 'fetch-data', component: FetchDataComponent },

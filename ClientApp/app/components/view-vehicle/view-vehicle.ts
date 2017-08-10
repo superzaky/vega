@@ -4,6 +4,7 @@ import { Component, OnInit, ElementRef, ViewChild, NgZone } from '@angular/core'
 import { ActivatedRoute, Router } from '@angular/router';
 import { PhotoService } from "../../services/photo.service";
 import { ProgressService } from "../../services/progress.service";
+import { AuthService } from "../../services/auth.service";
 
 @Component({
     templateUrl: 'view-vehicle.html',
@@ -18,6 +19,7 @@ export class ViewVehicleComponent implements OnInit {
     progress: any;
 
     constructor(
+        private auth: AuthService,
         private zone: NgZone,
         private route: ActivatedRoute,
         private router: Router,

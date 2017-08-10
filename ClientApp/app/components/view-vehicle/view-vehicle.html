@@ -27,8 +27,8 @@
         </ul>
         <br />
         <p>
-            <a class="btn btn-primary" [routerLink]="['/vehicles/edit/', vehicle.id]">Edit</a>
-            <button class="btn btn-danger" (click)="delete()">Delete</button>
+            <a *ngIf="auth.authenticated()" class="btn btn-primary" [routerLink]="['/vehicles/edit/', vehicle.id]">Edit</a>
+            <button *ngIf="auth.authenticated()" class="btn btn-danger" (click)="delete()">Delete</button*ngIf="auth.authenticated()">
             <a class="btn btn-default" [routerLink]="['/vehicles']">View All Vehicles</a>
         </p>
     </div>
@@ -36,7 +36,7 @@
     <!--#fileInput is a template variable-->
     <div id="Photo" class="tabcontent">
         <h2>Photos</h2>
-        <input type="file" (change)="uploadPhoto()" #fileInput>
+        <input *ngIf="auth.authenticated()" type="file" (change)="uploadPhoto()" #fileInput>
         <div class="progress" *ngIf="progress && progress.percentage < 100">
             <div class="progress-bar" [style.width]="progress.percentage + '%'">
                 <span class="sr-only">{{ progress.percentage }}% Complete</span>

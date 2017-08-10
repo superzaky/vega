@@ -13,6 +13,7 @@ using Microsoft.EntityFrameworkCore;
 using AutoMapper;
 using Vega.Core;
 using Vega.Core.Models;
+using Vega.Controllers;
 
 namespace WebApplicationBasic
 {
@@ -42,6 +43,9 @@ namespace WebApplicationBasic
             services.AddAutoMapper();
             //options => options.UseSqlServer("...") is een lambda expressie in C#.
             services.AddDbContext<VegaDbContext>(options => options.UseSqlServer(Configuration.GetConnectionString("Default")));
+            services.AddAuthorization(options => {
+                options.AddPolicy(Policies.RequireAdminRole, policy => policy.RequireClaim("https://vega.com/roles", "Admin"));
+            });
             // Add framework services.
             //oftewel hier worden dependencies toegevoegd/geregistreerd bijv. services.AddMvc();
             services.AddMvc();

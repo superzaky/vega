@@ -17,6 +17,8 @@ import { AdminComponent } from "./components/admin/admin.component";
 
 import { PhotoService } from "./services/photo.service";
 import { AuthService } from "./services/auth.service";
+import { AuthGuard } from "./services/auth-gaurd.service";
+import { AdminAuthGuard } from "./services/admin-auth-guard.service";
 
 export const sharedConfig: NgModule = {
     bootstrap: [ AppComponent ],
@@ -41,7 +43,7 @@ export const sharedConfig: NgModule = {
             { path: 'vehicles/edit/:id', component: VehicleFormComponent },
             { path: 'vehicles/:id', component: ViewVehicleComponent },
             { path: 'vehicles', component: VehicleListComponent },
-            { path: 'admin', component: AdminComponent },
+            { path: 'admin', component: AdminComponent, canActivate: [ AdminAuthGuard ] },
             { path: 'home', component: HomeComponent },
             { path: 'counter', component: CounterComponent },
             { path: 'fetch-data', component: FetchDataComponent },
@@ -50,6 +52,8 @@ export const sharedConfig: NgModule = {
     ],
     providers: [
         AuthService,
+        AuthGuard,
+        AdminAuthGuard,
         VehicleService,
         PhotoService
     ]

@@ -19,6 +19,7 @@ import { PhotoService } from "./services/photo.service";
 import { AuthService } from "./services/auth.service";
 import { AuthGuard } from "./services/auth-gaurd.service";
 import { AdminAuthGuard } from "./services/admin-auth-guard.service";
+import { AUTH_PROVIDERS } from "angular2-jwt/angular2-jwt";
 
 export const sharedConfig: NgModule = {
     bootstrap: [ AppComponent ],
@@ -53,6 +54,7 @@ export const sharedConfig: NgModule = {
     providers: [
         AuthService,
         AuthGuard,
+        AUTH_PROVIDERS,
         AdminAuthGuard,
         VehicleService,
         PhotoService

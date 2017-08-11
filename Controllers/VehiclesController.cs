@@ -32,7 +32,7 @@ namespace Vega.Controllers
          it looks at the request header and if we have a Authorization header with a valid JWT then the request will pass
          through and it will be routed to our CreateVehicle() action*/
         [HttpPost]
-        [Authorize]
+        //[Authorize]
         public async Task<IActionResult> CreateVehicle([FromBody] SaveVehicleResource vehicleResource)
         {
             if (!ModelState.IsValid)
@@ -68,7 +68,7 @@ namespace Vega.Controllers
         }
 
         [HttpPut("{id}")]
-        [Authorize]
+        //[Authorize]
         public async Task<IActionResult> UpdateVehicle(int id, [FromBody] SaveVehicleResource vehicleResource)
         {
             if (!ModelState.IsValid)
@@ -92,7 +92,7 @@ namespace Vega.Controllers
         }
 
         [HttpDelete("{id}")]
-        [Authorize]
+        //[Authorize]
         public async Task<IActionResult> DeleteVehicle(int id)
         {
             //"includeRelated:" is a named parameter/named argument to make the code more readable

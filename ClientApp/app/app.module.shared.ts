@@ -2,6 +2,7 @@ import { FormsModule } from '@angular/forms';
 import { NgModule } from '@angular/core';
 import { RouterModule } from '@angular/router';
 import { ToastyModule } from 'ng2-toasty';
+import { ChartModule } from 'angular2-chartjs';
 
 import { VehicleService } from './services/vehicle.service';
 import { AppComponent } from './components/app/app.component';
@@ -38,6 +39,7 @@ export const sharedConfig: NgModule = {
     imports: [
         FormsModule,
         ToastyModule.forRoot(),
+        ChartModule,
         RouterModule.forRoot([
             { path: '', redirectTo: 'vehicles', pathMatch: 'full' },
             { path: 'vehicles/new', component: VehicleFormComponent, canActivate: [AuthGuard] },

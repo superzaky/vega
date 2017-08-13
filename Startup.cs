@@ -40,6 +40,9 @@ namespace WebApplicationBasic
             services.AddScoped<IVehicleRepository, VehicleRepository>();
             services.AddScoped<IPhotoRepository, PhotoRepository>();
             services.AddScoped<IUnitOfWork, UnitOfWork>();
+            /*We want to use AddTransient because with our photoservice we don't have anything in the memory that we want to reuse in the context of request.*/
+            services.AddTransient<IPhotoService, PhotoService>();
+
             services.AddAutoMapper();
             //options => options.UseSqlServer("...") is een lambda expressie in C#.
             services.AddDbContext<VegaDbContext>(options => options.UseSqlServer(Configuration.GetConnectionString("Default")));

@@ -42,6 +42,10 @@ namespace WebApplicationBasic
             services.AddScoped<IUnitOfWork, UnitOfWork>();
             /*We want to use AddTransient because with our photoservice we don't have anything in the memory that we want to reuse in the context of request.*/
             services.AddTransient<IPhotoService, PhotoService>();
+            /*In the future when we provide an implementation of this interface for Azure we'll register this interface and it's implementation conditionally
+            based on the current enviroment. So if you're in the development environment we're gonna use filesystem for the storage, if we are in the production
+            environment we are gonna use Azure for the storage. */
+            services.AddTransient<IPhotoStorage, FileSystemPhotoStorage>();
 
             services.AddAutoMapper();
             //options => options.UseSqlServer("...") is een lambda expressie in C#.
